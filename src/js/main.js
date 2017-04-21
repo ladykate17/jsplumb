@@ -36,6 +36,21 @@ jsPlumb.ready(function() {
 			anchor: 'Continuous'
 		});
 
+		// tell Plumb state should be draggable
+		jsPlumb.draggable(newState, {
+			// don't let the state be dragged outside the surface
+			containment: 'parent'
+		});
+
+		// double click to remove state
+		newState.dblclick(function(e) {
+			// first remove all connections that may have been made
+			jsPlumb.detachAllConnections($(this));
+			$(this).remove(e);
+			// prevent the parent elements from triggering other events
+			e.stopPropagation();
+		});
+
 		i++;
 	});
 });
