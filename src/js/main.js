@@ -1,8 +1,41 @@
 jsPlumb.ready(function() {
-	  jsPlumb.makeSource($('.item'), {
-	    connector: 'StateMachine'
-	  });
-	  jsPlumb.makeTarget($('.item'), {
-	    anchor: 'Continuous'
-	  });
+
+	// tell Plumb to use a container as the surface
+	jsPlumb.setContainer($('#container'));
+
+	// set a variable to keep track of the states
+	var i = 0;
+
+	$('#container').dblclick(function(e) {
+		// next 3 lines creat the divs that house the new state
+		var newState = $('<div>').attr('id', 'state' + i).addClass('item');
+
+		// create areas on the state that can be used later fro dragging and connecting
+		var title = $('<div>').addClass('title').text('State ' + i);
+		var connect = $('<div>').addClass('connect');
+
+		// add the state at the position of the cursor
+		newState.css({
+			'top': e.pageY,
+			'left': e.pageX
+		});
+
+		// add the title and connection areas the the state
+		newState.append(title);
+		newState.append(connect);
+
+		$('#container').append(newState);
+
+		jsPlumb.makeTarget(newState, {
+			anchor: 'Continuous'
+		});
+
+		jsPlumb.makeSource(connect, {
+			// connection is made to the parent state of connect
+			parent: newState,
+			anchor: 'Continuous'
+		});
+
+		i++;
+	});
 });
