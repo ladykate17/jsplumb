@@ -6,8 +6,8 @@ jsPlumb.ready(function() {
 	// set a variable to keep track of the states
 	var i = 0;
 
-	$('#container').dblclick(function(e) {
-		// next 3 lines creat the divs that house the new state
+	addState = function(e) {
+		// next 3 lines create the divs that house the new state
 		var newState = $('<div>').attr('id', 'state' + i).addClass('item');
 
 		// create areas on the state that can be used later fro dragging and connecting
@@ -52,5 +52,15 @@ jsPlumb.ready(function() {
 		});
 
 		i++;
+	};
+
+	$("#container").dblclick(function(e) {
+		addState(e);
+	});
+
+	$("#addNewBtn").click(function(e) {
+		e.pageX= 200;
+		e.pageY = 200;
+		addState(e);
 	});
 });
